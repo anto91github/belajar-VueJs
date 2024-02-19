@@ -7,18 +7,18 @@
 </head>
 <body>
 <div id="app">
-    <button @click="kurang()">-</button>
-    {{ count }}
-    <button @click="tambah()">+</button>
+    <div>
+        <div v-html="message"></div>
+    </div>
 </div>
 
     <script type="module">
-        import { createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
+        import { createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
         createApp({
             data(){
                 return{
-                    count: 10
+                    message: '<i> hallo vueJs dalam italic </i>'
                 }
             },
             methods:{
