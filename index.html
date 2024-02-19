@@ -7,27 +7,32 @@
 </head>
 <body>
 <div id="app">
-    <div v-show="stateLampu">
-        Lampu hidup
+    <div v-for="(value, index) in footballPlayers">
+        {{index}} - {{value.name}} | {{value.position}}
     </div>
-    <button @click="toogleLampu">Saklar Lampu</button>
 </div>
 
-    <script type="module">
-        import { createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+<script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
-        createApp({
-            data(){
-                return{
-                  stateLampu: false
-                }
-            },
-            methods: {
-                toogleLampu(){
-                    this.stateLampu = !this.stateLampu
-                }
+    createApp({
+        data(){
+            return{
+                footballPlayers:[
+                    {name:'messi', position: 'FW'},
+                    {name:'CR7', position: 'WF'},
+                    {name:'casilas', position: 'GK'},
+                    {name:'ramos', position: 'DF'},
+                    {name:'modric', position: 'MF'},
+                ]
             }
-        }).mount('#app')
-    </script>
+        },
+        methods: {
+            hapusBuah(index) {
+                this.fruits.splice(index,1)
+            }
+        }
+    }).mount('#app')
+</script>
 </body>
 </html>
