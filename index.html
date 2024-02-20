@@ -7,9 +7,20 @@
 </head>
 <body>
 <div id="app">
-    <div v-for="(value, index) in footballPlayers">
-        {{index}} - {{value.name}} | {{value.position}}
-    </div>
+    <button @click="kurang()">-</button>
+        <span> {{count}} </span>
+    <button @click="tambah()">+</button>
+
+    <button @click="sayHello('cara fajar')">Say Hello</button>
+    <br/>
+    <input type="text" @keydown.enter="sayHello('cara fajar')">
+    <br/>
+    <input type="text" @keydown.space="sayHello('cara fajar')">
+    <br/>
+    <form method="post" action="whatever.html" @submit.prevent>
+        <input type="text">
+        <input type="submit" value="send">
+    </form>
 </div>
 
 <script type="module">
@@ -18,18 +29,18 @@
     createApp({
         data(){
             return{
-                footballPlayers:[
-                    {name:'messi', position: 'FW'},
-                    {name:'CR7', position: 'WF'},
-                    {name:'casilas', position: 'GK'},
-                    {name:'ramos', position: 'DF'},
-                    {name:'modric', position: 'MF'},
-                ]
+                count: 0
             }
         },
         methods: {
-            hapusBuah(index) {
-                this.fruits.splice(index,1)
+            kurang(){
+                this.count--
+            },
+            tambah(){
+                this.count++
+            },
+            sayHello(nama){
+                alert('Hallo '+ nama)
             }
         }
     }).mount('#app')
