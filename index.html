@@ -5,22 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Belajar VueJs</title>
 </head>
+<style>
+    .textbiru {
+        color: blue;
+    }
+    #textUnderLine {
+        text-decoration: underline;
+    }
+</style>
 <body>
 <div id="app">
-    <button @click="kurang()">-</button>
-        <span> {{count}} </span>
-    <button @click="tambah()">+</button>
+    <div :class="selectedClass" :id="selectedId">
+        user: {{user.name}}
+    </div>
+    <div>
+        <img 
+            v-bind:src='user.image' 
+            v-bind:style="{width: calculatedWidth}" 
+            v-bind:alt=" 'image of '+ user.name "
+            v-bind:title="  'image of '+ user.name "
+        >
+        atau
+        <img 
+            :src='user.image' 
+            :style="{width: calculatedWidth}" 
+            :alt=" 'image of '+ user.name "
+            :title=" 'image of '+ user.name "
+        >
+    </div>
 
-    <button @click="sayHello('cara fajar')">Say Hello</button>
-    <br/>
-    <input type="text" @keydown.enter="sayHello('cara fajar')">
-    <br/>
-    <input type="text" @keydown.space="sayHello('cara fajar')">
-    <br/>
-    <form method="post" action="whatever.html" @submit.prevent>
-        <input type="text">
-        <input type="submit" value="send">
-    </form>
 </div>
 
 <script type="module">
@@ -29,18 +42,14 @@
     createApp({
         data(){
             return{
-                count: 0
-            }
-        },
-        methods: {
-            kurang(){
-                this.count--
-            },
-            tambah(){
-                this.count++
-            },
-            sayHello(nama){
-                alert('Hallo '+ nama)
+                url: 'https://google.com',
+                user:{
+                    name: 'user1',
+                    image: 'https://images.pexels.com/photos/1804035/pexels-photo-1804035.jpeg?auto=compress&cs=tinysrgb&w=600'
+                },
+                calculatedWidth: '400px',
+                selectedClass: 'textbiru',
+                selectedId: 'textUnderLine'
             }
         }
     }).mount('#app')
