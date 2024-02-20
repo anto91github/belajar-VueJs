@@ -7,46 +7,12 @@
 </head>
 <body>
 <div id="app">
+    <form action="">
+        <input type="text" v-model="firstName">
+        <input type="text" v-model="lastName">
+    </form>
     <div>
-        <input type="text" v-model ="username">
-    </div>
-    <div>
-        <textarea cols="30" rows="10" v-model ="address"></textarea>
-    </div>
-    <div>
-        <input type="radio" value="L" v-model="gender">Laki-laki
-        <input type="radio" value="P" v-model="gender">Perempuan
-    </div>
-    <div>
-        <input type="checkbox" value="sepak bola" v-model="hobby"> Sepak Bola
-        <input type="checkbox" value="basket" v-model="hobby"> Basket
-        <input type="checkbox" value="voli" v-model="hobby"> Voli
-    </div>
-    <div>
-        <select v-model="role">
-            <option disabled value="">Choose one</option>
-            <option value="admin">Admin</option>
-            <option value="staff">Staff</option>
-        </select>
-    </div>
-
-    <div>
-        <p>
-            username : {{username}}
-            <br/>
-            address : {{address}}
-            <br/>
-            gender : {{gender}}
-            <br/>
-            hobi: 
-            <span v-if="hobby.length > 0">
-                <ul v-for="item in hobby">
-                    <li>{{item}}</li>
-                </ul>     
-            </span>
-            <br/>
-            role: {{role}}
-        </p>
+        Full Name : {{fullName}}
     </div>
 </div>
 
@@ -56,13 +22,16 @@
     createApp({
         data(){
             return{
-                username:'',
-                address:'',
-                gender:'',
-                hobby:[],
-                role:''
+                firstName: '',
+                lastName: ''
+            }
+        },
+        computed:{
+            fullName(){
+                return this.firstName + ' ' + this.lastName
             }
         }
+            
     }).mount('#app')
 </script>
 </body>
