@@ -7,31 +7,70 @@
 </head>
 <body>
 <div id="app">
-    <form action="">
-        <input type="text" v-model="firstName">
-        <input type="text" v-model="lastName">
+    <form action="" @submit-prevent="">
+        Username: 
+        <input type="text" v-model="userName">
+        <label for="username" v-if="userNameErr">{{ errMSg }}</label>
+        <br/>
+        Password: 
+        <input type="password" v-model="password">
+        <label for="password" v-if="passwordErr">{{ errMSgPassword }}</label>
+        <br/>
+        Retype Password: 
+        <input type="password" v-model="passwordRetype">
+        <label for="password" v-if="reTypeErr">{{ errMSgRetype }}</label>
+        <br/>
+        <input type="submit" value="Register">
     </form>
-    <div>
-        Full Name : {{fullName}}
-    </div>
 </div>
 
 <script type="module">
     import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-
     createApp({
         data(){
-            return{
-                firstName: '',
-                lastName: ''
+            return {
+                userName: '',
+                password: '',
+                passwordRetype: '',
+                userNameErr: false,
+                passwordErr:false,
+                reTypeErr:false,
+                errMSg:'',
+                errMSgPassword: '',
+                errMSgRetype:''
             }
         },
-        computed:{
-            fullName(){
-                return this.firstName + ' ' + this.lastName
+        watch: {
+            userName(value){
+                if(value.length < 8) 
+                {
+                    this.userNameErr = true
+                    this.errMSg = 'minimal username 8 char'
+                } else {
+                    this.userNameErr = false
+                    this.errMSg = ''
+                }
+            },
+            password(value){
+                if(value.length < 8) 
+                {
+                    this.passwordErr = true
+                    this.errMSgPassword = 'minimal password 8 char'
+                } else {
+                    this.passwordErr = false
+                    this.errMSgPassword = ''
+                }
+            },
+            passwordRetype(value){
+                if(value != this.password){
+                    this.reTypeErr = true
+                    this.errMSgRetype = 'password tidak sama'
+                } else {
+                    this.reTypeErr = false
+                    this.errMSgRetype = ''
+                }
             }
-        }
-            
+        } 
     }).mount('#app')
 </script>
 </body>
