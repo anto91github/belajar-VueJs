@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+    .card{
+        background: rgba(255,255,255, 0.21);
+        border-radius: 10px;
+        box-shadow: 0 4px 30px rgba(0,0,0, 0.1);
+        backdrop-filter: blur(9px);
+        border-left: 2px solid rgba(255, 255, 255, 0.58);
+        border-top: 2px solid rgba(255,255,255, 0.58);
+    }
+    .suggested-pokemon{
+        cursor: pointer;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="container-fluid bg-dark bg-gradient">
+            <div class="container bg-dark" style="min-height: 100vh;">
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <img src="img/pngegg.png" alt="" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-3 text-white">
+                    <div class="col-5">
+                        <input type="text" class="form-control" placeholder="Search Pokemon" v-model=search>
+                        <div class="mt-2">
+                            <label>Suggestion: &nbsp;</label>
+                            <span v-for="i in suggestedPokemon" class="suggested-pokemon" @click="viewDetail(i.name)">
+                                {{i.name}} |
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main mt-5 pt-5">
+                    <div class="view-all text-white" v-if="!viewDetailFlag">
+                        <div class="row px-5">
+                            <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="item in pokemonList" @click="viewDetail(item.name)">
+                                <div class="card text-center">
+                                    <img :src='item.sprites.front_default' alt=''>
+                                    <label style="font-size: 18px"> {{item.name}} </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="view-detail text-white" v-else>
+                        <div class="mb-5">
+                            <button @click="viewDetailFlag=false">Back</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <img :src='selectedPokemon.sprites ? selectedPokemon.sprites.front_default : "" ' alt=''>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <h2>{{selectedPokemon.name}}</h2>
+                                <p>
+                                    <label>Type:&nbsp;&nbsp;</label>
+                                    <span v-for="i in selectedPokemon.types">
+                                        {{i.type.name}} |
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>Skills:&nbsp;&nbsp;</label>
+                                    <ul v-for="i in selectedPokemon.moves">
+                                       <li> {{i.move.name}} </li>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+        createApp({
+            data(){
+                return {
+                    pokemonList: [],
+                    viewDetailFlag: false,
+                    selectedPokemon:'',
+                    search:'',
+                    gen1List:[],
+                    suggestedPokemon:''
+                }
+            },
+            methods: {
+                async getListPokemon(){
+                    let response = await fetch("https://pokeapi.co/api/v2/pokemon");
+                    let data = await response.json();
+                    let results = data.results;
+                    
+                    results.forEach(item =>{
+                        this.getEachPokemon(item)
+                    })
+                },
+                async getEachPokemon(item){
+                    let response = await fetch("https://pokeapi.co/api/v2/pokemon/" + item.name);
+                    let data = await response.json();
+                    
+                    this.pokemonList.push(data)
+                    this.pokemonList.sort((a,b) => a.id - b.id) //agar datanya urut
+                },
+                async getGen1Pokemon(){
+                    let response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+                    let data = await response.json();
+                    let results = data.results;
+
+                    this.gen1List= results
+
+                },
+                async viewDetail(name){
+                    this.viewDetailFlag = true
+                    let response = await fetch("https://pokeapi.co/api/v2/pokemon/" + name);
+                    let data = await response.json();
+                    this.selectedPokemon = data
+                }
+            },
+            watch: {
+                search(){
+                    let filteredPokemon = this.gen1List.filter( item => {
+                        return item.name.includes(this.search)
+                    })
+                    this.suggestedPokemon = filteredPokemon.slice(0,3) //hanya ambil 3 data pertama
+                }
+            },
+            mounted(){
+                this.getListPokemon()
+                this.getGen1Pokemon()              
+            }
+    }).mount('#app')
+    </script>
+</body>
+</html>
