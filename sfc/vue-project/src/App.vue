@@ -1,33 +1,37 @@
 <template>
-  <Student @responseName="(value)=> selectedStudent=value" studentName="Andy">
-    ini adalah nilai slot Parent
-  </Student> 
-  <br>
-  <Student @responseName="showData" studentName="Budi"/> <br>
-  <Student @responseName="showData" studentName="Elly"/> <br>
-
-  <p>
-    Student yg di pilih = {{ selectedStudent }}
-  </p>
+  <div class="menu">
+    <Navbar/>
+  </div>
+  
+  <div class="main">
+    <RouterView />
+  </div>
+  
 </template>
 
 <script>
-  import Student from './components/Student.vue'
+    import Navbar from "./components/Navbar.vue"
 
-  export default {
-    components: {
-      Student
-    },
-    data(){
-      return{
-        selectedStudent:'',
-        testData:''
+    export default {
+      components: {
+        Navbar
+      }
     }
-  },
-  methods:{
-    showData(value){
-      this.selectedStudent = value
-    }
-  }
-}
 </script>
+
+<style>
+  body{
+    margin:0;
+  }
+</style>
+
+<style scoped>
+    .menu{
+        background-color: #eee;
+        line-height: 2.5;
+        padding: 10px;
+    }
+    .main{
+      padding:10px;
+    }
+</style>
