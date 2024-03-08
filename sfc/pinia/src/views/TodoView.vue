@@ -10,47 +10,9 @@
         <h3 style="text-align: center;">My Todo List</h3>
     </div>
 
-    <div class="getters-button">
-        <button @click="show = 'all'">Show All</button>
-        <button @click="show = 'done only'">Done Only</button>
-        <button @click="show = 'undone only'">Undone Only</button>
-    </div>
-    <!-- show all -->
-    <div v-if="show == 'all'">
-        <ul>
-            <li v-for="list in todoStore.todoList">
-                <span>{{ list.name }}</span>
-                <span>
-                    <button v-if="list.isDone == false" @click="todoStore.setAsDone(list.name)">set as Done</button>
-                    <button v-if="list.isDone" @click="todoStore.setAsUnDone(list.name)">set as Un-Done</button>
-                </span>
-            </li>
-        </ul>
-    </div>
-    <!-- done only -->
-    <div v-if="show == 'done only'">
-        <ul>
-            <li v-for="list in todoStore.doneOnly">
-                <span>{{ list.name }}</span>
-                <span>
-                    <button v-if="list.isDone == false" @click="todoStore.setAsDone(list.name)">set as Done</button>
-                    <button v-if="list.isDone" @click="todoStore.setAsUnDone(list.name)">set as Un-Done</button>
-                </span>
-            </li>
-        </ul>
-    </div>
-    <!-- undone only -->
-    <div v-if="show == 'undone only'">
-        <ul>
-            <li v-for="list in todoStore.unDoneOnly">
-                <span>{{ list.name }}</span>
-                <span>
-                    <button v-if="list.isDone == false" @click="todoStore.setAsDone(list.name)">set as Done</button>
-                    <button v-if="list.isDone" @click="todoStore.setAsUnDone(list.name)">set as Un-Done</button>
-                </span>
-            </li>
-        </ul>
-    </div>
+    
+
+    <TodoList v-bind:dataTodo="todoStore"/>
     
 
 </template>
@@ -99,11 +61,12 @@
 <script setup>
 import { useTodoStore } from '../stores/todoStore'
 import {ref, reactive, onMounted, computed} from 'vue'
+import TodoList from '../components/TodoList.vue'
 
 
 const todoStore = useTodoStore()
 const newTodo= ref()
-let show= ref('all')
+
 
 
 </script>
