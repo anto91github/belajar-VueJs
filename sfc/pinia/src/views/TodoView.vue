@@ -10,8 +10,6 @@
         <h3 style="text-align: center;">My Todo List</h3>
     </div>
 
-    
-
     <TodoList v-bind:dataTodo="todoStore"/>
     
 
@@ -70,3 +68,19 @@ const newTodo= ref()
 
 
 </script>
+
+<!-- <script>
+    import { useTodoStore } from '../stores/todoStore'
+    import TodoList from '../components/TodoList.vue'
+
+    export default{
+        setup(){
+            const todoStore = useTodoStore()
+
+            return {todoStore}
+        },
+        components:{
+            TodoList
+        }
+    }
+</script> -->
